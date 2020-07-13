@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 const Contanier = styled.div`
@@ -74,6 +75,7 @@ const RegisteredParagraf = styled.p`
   height: auto;
   background: none;
   color: #666666;
+  cursor: pointer;
 `;
 
 const CreateAccaount = styled.a`
@@ -84,8 +86,13 @@ const CreateAccaount = styled.a`
 `;
 
 export const Login = () => {
+  const history = useHistory();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+
+  const routGotoRegistraction = () => {
+    history.push("/Registration");
+  };
 
   return (
     <>
@@ -107,7 +114,9 @@ export const Login = () => {
           <Button>Submit</Button>
           <RegisteredParagraf>
             Not registered?
-            <CreateAccaount href="/register">create an account</CreateAccaount>
+            <CreateAccaount onClick={routGotoRegistraction}>
+              create an account
+            </CreateAccaount>
           </RegisteredParagraf>
         </Form>
       </Contanier>
