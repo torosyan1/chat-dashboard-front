@@ -1,6 +1,62 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import Axios from "axios";
+
+export const Login = () => {
+  const history = useHistory();
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [backendMSG, setBackendMSG] = useState("");
+  const handelSubmit = (e) => {
+    e.preventDefault();
+    Axios.post(`${process.env.REACT_APP_IP}/login`, {
+      email: login,
+      password: password,
+    })
+      .then((res) => {
+        setBackendMSG(res.data.msg);
+        if (res.data.massege) {
+          history.push("/chat_dashboard");
+        }
+      })
+
+      .catch((err) => console.log(err));
+  };
+  const routGotoRegistraction = () => {
+    history.push("/registration");
+  };
+
+  return (
+    <>
+      <Contanier>
+        <Form>
+          <LoginParagraf>Login</LoginParagraf>
+          <BackendNotificationData>{backendMSG}</BackendNotificationData>
+          <Input
+            value={login}
+            type="text"
+            placeholder="Login"
+            onChange={(e) => setLogin(e.target.value)}
+          />
+          <Input
+            value={password}
+            type="Password"
+            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button onClick={handelSubmit}>Submit</Button>
+          <RegisteredParagraf>
+            Not registered?
+            <CreateAccaount onClick={routGotoRegistraction}>
+              create an account
+            </CreateAccaount>
+          </RegisteredParagraf>
+        </Form>
+      </Contanier>
+    </>
+  );
+};
 
 const Contanier = styled.div`
   display: flex;
@@ -85,41 +141,12 @@ const CreateAccaount = styled.a`
   background: none;
 `;
 
-export const Login = () => {
-  const history = useHistory();
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-
-  const routGotoRegistraction = () => {
-    history.push("/Registration");
-  };
-
-  return (
-    <>
-      <Contanier>
-        <Form>
-          <LoginParagraf>Login</LoginParagraf>
-          <Input
-            value={login}
-            type="text"
-            placeholder="Login"
-            onChange={(e) => setLogin(e.target.value)}
-          />
-          <Input
-            value={password}
-            type="Password"
-            placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button>Submit</Button>
-          <RegisteredParagraf>
-            Not registered?
-            <CreateAccaount onClick={routGotoRegistraction}>
-              create an account
-            </CreateAccaount>
-          </RegisteredParagraf>
-        </Form>
-      </Contanier>
-    </>
-  );
-};
+const BackendNotificationData = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  background: none;
+  color: red;
+  padding-bottom: 26px;
+`;
