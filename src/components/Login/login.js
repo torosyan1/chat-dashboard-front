@@ -14,6 +14,7 @@ export const Login = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [backendMSG, setBackendMSG] = useState("");
+
   const handelSubmit = (e) => {
     e.preventDefault();
     Axios.post(`${process.env.REACT_APP_IP}/login`, {
@@ -34,9 +35,9 @@ export const Login = () => {
           history.push("/chat_dashboard");
         }
       })
-
       .catch((err) => console.log(err));
   };
+
   const routGotoRegistraction = () => {
     history.push("/registration");
   };
