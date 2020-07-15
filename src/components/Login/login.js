@@ -2,12 +2,19 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { userData } from "../../redux/actions/userAction";
+import PropTypes from "prop-types";
 
 export const Login = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
+  const state = useSelector((state) => state.user);
+  console.log(state);
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [backendMSG, setBackendMSG] = useState("");
+
   const handelSubmit = (e) => {
     e.preventDefault();
     Axios.post(`${process.env.REACT_APP_IP}/login`, {
@@ -15,14 +22,22 @@ export const Login = () => {
       password: password,
     })
       .then((res) => {
+        dispatch(
+          userData(
+            res.data.massege,
+            res.data.firstName,
+            res.data.lastName,
+            res.data.id
+          )
+        );
         setBackendMSG(res.data.msg);
         if (res.data.massege) {
           history.push("/chat_dashboard");
         }
       })
-
       .catch((err) => console.log(err));
   };
+
   const routGotoRegistraction = () => {
     history.push("/registration");
   };
@@ -56,6 +71,10 @@ export const Login = () => {
       </Contanier>
     </>
   );
+};
+
+Login.propTypes = {
+  userData: PropTypes.func,
 };
 
 const Contanier = styled.div`
