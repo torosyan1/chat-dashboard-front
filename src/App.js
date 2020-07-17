@@ -3,7 +3,7 @@ import "./index.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Registration } from "./components/Registration/registration";
 import { Login } from "./components/Login/login";
-
+import { Dashboard } from "./components/Dashboard/dashboard";
 
 function App() {
   return (
@@ -14,8 +14,11 @@ function App() {
             <Route exact path="/">
               <Login />
             </Route>
-            <Route exact path="/Registration">
+            <Route exact path="/registration">
               <Registration />
+            </Route>
+            <Route exact path="/chat_dashboard">
+              <Dashboard />
             </Route>
           </Switch>
         </div>
